@@ -17,7 +17,7 @@ def ham_action(grouped_terms, sv, local_dim=2):
         result += op_action(mat, indices, sv, local_dim=local_dim)
     return result
 
-def ground(ham):
+def ground(ham, ncv=10):
     grouped_terms = ham.grouped_terms()
     dim = 2**ham.num_sites
 
@@ -25,5 +25,5 @@ def ground(ham):
         return ham_action(grouped_terms, v)
 
     H_linop = LinearOperator(shape=(dim, dim), matvec=mv, dtype=np.complex128)
-    vals, vecs = eigsh(H_linop, k=1, which='SA')  # 'SA' = smallest algebraic
+    vals, vecs = eigsh(H_linop, k=1, which='SA', ncv=ncv, maxiter=dim)  # 'SA' = smallest algebraic
     return vals[0], vecs[:, 0]
