@@ -1,5 +1,10 @@
-from main import *
+import os
+import sys
 import pickle
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
+sys.path.append(SRC_DIR)
+from main import *
 
 row_layout = [{'num_cells': 3, 'shift': 0.0}, 
              {'num_cells': 4, 'shift': -0.5}, 
