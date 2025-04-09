@@ -1,11 +1,11 @@
 import os
 
-script_name = "tee12.py"  
+script_name = "gs30_10.py"  
 
 JOBS_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of sbatcher.py
 SCRIPT_PATH = os.path.join(JOBS_DIR, script_name)
 
-s = script_name.split("_")[0]
+s = script_name.split(".")[0]
 job_name = s
 command = f"python {SCRIPT_PATH}"
 
@@ -19,7 +19,7 @@ def darwin_sbatch(job_name, command, run_dir, data_dir):
         f.write("#SBATCH --nodes=1\n")
         f.write("#SBATCH --exclusive\n")
         f.write("#SBATCH --time=2-0:00:00\n")
-        f.write("#SBATCH --mem=256G\n")
+        f.write("#SBATCH --mem=2000G\n")
         f.write("#SBATCH --no-requeue\n")
         f.write(f"#SBATCH --output={log_file}.out\n")
         f.write(f"#SBATCH --error={log_file}.err\n")

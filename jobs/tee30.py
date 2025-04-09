@@ -1,5 +1,10 @@
-from qaravan.tensorQ import top_entropy
+import os
+import sys
 import pickle
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
+sys.path.append(SRC_DIR)
+from main import *
 
 state_file = "30gs.pickle"
 with open(state_file, "rb") as f:

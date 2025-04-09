@@ -3,6 +3,7 @@ from qaravan.core import ChiralHeisenberg, vN_entropy
 import numpy as np
 from scipy.sparse.linalg import LinearOperator
 from primme import eigsh
+import sys
 
 def interp_ham(row_layout, sp, theta): 
     j = 1 
@@ -27,8 +28,21 @@ def ground(ham, ncv=10):
             v = v[:, 0]
         return ham_action(grouped_terms, v)
 
+    def convtest(eval_, evec, resNorm):
+        print(f"Residual: {resNorm:.2e} for eigenvalue estimate: {eval_:.6f}")
+        sys.stdout.flush()
+        if np.abs(resNorm) < 1e-12: 
+            return True
+        return False
+    
     H_linop = LinearOperator(shape=(dim, dim), matvec=mv, dtype=np.complex128)
-    vals, vecs = eigsh(H_linop, k=1, which='SA', ncv=ncv, maxiter=dim)  # 'SA' = smallest algebraic
+    vals, vecs = eigsh(
+        H_linop,
+        k=1,
+        which='SA',
+        ncv=ncv,
+        convtest=convtest
+    )
     return vals[0], vecs[:, 0]
 
 def top_entropy(gstate, regions): 
