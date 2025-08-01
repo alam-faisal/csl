@@ -3,8 +3,7 @@ from qaravan.core import ChiralHeisenberg, vN_entropy, two_local_circ, RunContex
 import numpy as np
 from scipy.sparse.linalg import LinearOperator
 from primme import eigsh
-import sys
-import pickle
+import sys, pickle, torch
 
 #========== GS properties ============== #
 
@@ -17,7 +16,7 @@ def interp_ham(row_layout, sp, theta):
     return ChiralHeisenberg(row_layout, jx, jy, jz, jc, sp=sp)
 
 def ham_action(grouped_terms, sv, local_dim=2): 
-    result = np.zeros_like(sv, dtype=complex)
+    result = torch.zeros_like(sv, dtype=torch.complex128) if torch.is_tensor(sv) else np.zeros_like(sv, dtype=complex)
     for indices, mat in grouped_terms: 
         result += op_action(mat, indices, sv, local_dim=local_dim)
     return result
